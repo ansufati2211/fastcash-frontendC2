@@ -200,9 +200,6 @@ window.imprimirCierre = async () => {
     }
 };
 
-// ==========================================
-// 2. FUNCIÓN: CIERRE DETALLADO (3 COLUMNAS TICKET)
-// ==========================================
 window.imprimirCierreDetallado = async () => {
     if(!confirm("⚠️ ¿Estás seguro de realizar el CIERRE DE CAJA (DETALLADO)?\n\nEsta acción finalizará tu turno, imprimirá el ticket con el detalle de las ventas y cerrará tu sesión.")) return;
 
@@ -264,7 +261,7 @@ setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
                     const monto = parseFloat(d.montopagado || d.montoPagado || d.MontoPagado || 0).toFixed(2);
                     
                     const horaFormateada = new Date(fechaStr).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
-
+                    
 let infoOperacion = '';
                     if (formaPago === 'EFECTIVO') {
                         infoOperacion = 'EFECTIVO';
@@ -276,6 +273,9 @@ let infoOperacion = '';
                             prefijo = entidad; // Muestra VISA, MASTERCARD, etc.
                         } else if (formaPago === 'TRANSFERENCIA') {
                             prefijo = 'TRANSF'; // Abreviatura solicitada
+                        } else if (formaPago === 'QR' || formaPago === 'YAPE' || formaPago === 'PLIN') {
+                            // 👇 NUEVO: Agrega el nombre del banco (BCP, BBVA) junto a la palabra QR
+                            prefijo = `QR ${entidad !== '-' ? entidad : ''}`.trim(); 
                         }
                         
                         infoOperacion = `${prefijo}: ${numOp}`;

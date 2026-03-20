@@ -4,7 +4,6 @@ const BANCOS_POR_DEFECTO_USUARIO = {
     6: "BBVA", 
     9: "BCP", 
     10: "BCP",
-    6: "BBVA", 
     11: "BBVA",  
     12: "BBVA", 
     13: "BBVA", 
@@ -111,15 +110,14 @@ async function cargarCategoriasVenta() {
 
 async function cargarMetodosPago() {
     try {
+        // CORRECCIÓN: Usamos window.getAuthHeaders() para evitar errores 403
         const response = await fetch(`${window.BASE_URL}/maestros/entidades`, {
-            headers: { 'Authorization': `Bearer ${window.TOKEN}` }
+            headers: window.getAuthHeaders()
         });
         if (!response.ok) return;
         const entidades = await response.json();
 
-        // -------------------------------------------------------------
         // 1. CARGAR BILLETERAS DIGITALES (YAPE / PLIN)
-        // -------------------------------------------------------------
         const contenedorYape = document.getElementById('selectorDestino');
         if(contenedorYape) {
             contenedorYape.innerHTML = '';
@@ -150,15 +148,12 @@ async function cargarMetodosPago() {
             });
 
             const nombreBancoPreferido = BANCOS_POR_DEFECTO_USUARIO[window.USUARIO_ID];
-            
             if (nombreBancoPreferido) {
                 const btnPreferido = Array.from(contenedorYape.querySelectorAll('.chip-banco')).find(b => 
                     b.dataset.nombre.includes(nombreBancoPreferido.toUpperCase())
                 );
-                
-                if (btnPreferido) {
-                    btnPreferido.click();
-                } else {
+                if (btnPreferido) btnPreferido.click();
+                else {
                     const primerBtn = contenedorYape.querySelector('.chip-banco');
                     if (primerBtn) primerBtn.click();
                 }
@@ -168,9 +163,7 @@ async function cargarMetodosPago() {
             }
         }
 
-        // -------------------------------------------------------------
         // 2. CARGAR BANCOS PARA POS (TARJETAS)
-        // -------------------------------------------------------------
         const contenedorTarjeta = document.getElementById('selectorBancoTarjeta');
         if(contenedorTarjeta) {
             contenedorTarjeta.innerHTML = '';
@@ -199,22 +192,18 @@ async function cargarMetodosPago() {
             if(primerBtnTarjeta) primerBtnTarjeta.click();
         }
 
-        // -------------------------------------------------------------
-        // 3. CARGAR BANCOS PARA TRANSFERENCIAS DIRECTAS (NUEVO)
-        // -------------------------------------------------------------
+        // 3. CARGAR BANCOS PARA TRANSFERENCIAS DIRECTAS
         const contenedorTransferencia = document.getElementById('selectorBancoTransferencia');
         if(contenedorTransferencia) {
             contenedorTransferencia.innerHTML = '';
             
             entidades.forEach(ent => {
-                // Filtra y muestra SOLO las entidades que sean tipo 'BANCO' y estén activas
                 if(ent.activo && ent.tipo === 'BANCO') {
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.className = 'chip-banco';
                     btn.dataset.value = ent.entidadID;
 
-                    // Asigna un color al puntito dependiendo del nombre del banco
                     let claseDot = 'generic';
                     if(ent.nombre.toUpperCase().includes('BCP')) claseDot = 'bcp';
                     if(ent.nombre.toUpperCase().includes('BBVA')) claseDot = 'bbva';
@@ -234,13 +223,11 @@ async function cargarMetodosPago() {
                 }
             });
             
-            // Selecciona el primer banco de la lista automáticamente
             const primerBtnTrans = contenedorTransferencia.querySelector('.chip-banco');
             if(primerBtnTrans) primerBtnTrans.click();
         }
-        
     } catch (e) { 
-        console.error(e); 
+        console.error("Error cargando métodos de pago:", e); 
     }
 }
 
@@ -254,13 +241,13 @@ async function procesarPago(e, form, tipo, idInputFam, idContenedorFam) {
     const btn = form.querySelector('.btn-registrar-grande');
     const inputFam = document.getElementById(idInputFam);
     
-    // 1. Obtener el monto correcto según el formulario
+    // Obtener el monto usando Optional Chaining
     let inputMonto;
     if (tipo === 'YAPE') inputMonto = document.getElementById('monto');
     else if (tipo === 'TARJETA') inputMonto = document.getElementById('montoTarjeta');
     else if (tipo === 'TRANSFERENCIA') inputMonto = document.getElementById('montoTransferencia');
 
-    const monto = inputMonto ? parseFloat(inputMonto.value) : 0;
+    const monto = inputMonto?.value ? parseFloat(inputMonto.value) : 0;
 
     if (!monto || monto <= 0) { window.mostrarNotificacion("⚠️ Ingresa un monto válido", 'error'); return; }
 
@@ -271,38 +258,33 @@ async function procesarPago(e, form, tipo, idInputFam, idContenedorFam) {
 
     let entidadId = 1, numOp = null, compId = 2, comprobanteExt = null, titularTransferencia = null; 
 
-    // 2. Validar datos según el tipo de venta
+    // CORRECCIÓN: Uso seguro del DOM con ?.value para evitar crasheos de nulos
     if (tipo === 'YAPE') {
-        const valDestino = document.getElementById('inputDestino').value;
+        const valDestino = document.getElementById('inputDestino')?.value;
         if (valDestino && valDestino.trim() !== "") entidadId = valDestino;
-        numOp = document.getElementById('numOperacion').value;
+        numOp = document.getElementById('numOperacion')?.value;
         if (!numOp) { window.mostrarNotificacion("⚠️ Ingrese el número de operación", 'error'); return; }
-        const inputComp = document.getElementById('inputComprobante');
-        if(inputComp) compId = inputComp.value;
-        const inputExt = document.getElementById('txtComprobanteYape');
-        if(inputExt) comprobanteExt = inputExt.value.trim();
+        compId = document.getElementById('inputComprobante')?.value || 2;
+        comprobanteExt = document.getElementById('txtComprobanteYape')?.value?.trim() || null;
         
     } else if (tipo === 'TARJETA') {
-        const valBanco = document.getElementById('inputBancoTarjeta').value;
+        const valBanco = document.getElementById('inputBancoTarjeta')?.value;
         if (!valBanco || valBanco.trim() === "") { window.mostrarNotificacion("⚠️ Selecciona el Banco", 'error'); return; }
         entidadId = valBanco;
-        numOp = document.getElementById('numOperacionTarjeta').value;
+        numOp = document.getElementById('numOperacionTarjeta')?.value;
         if (!numOp) { window.mostrarNotificacion("⚠️ Ingrese el Voucher/Lote", 'error'); return; }
-        const inputCompT = document.getElementById('inputComprobanteTarjeta');
-        if(inputCompT) compId = inputCompT.value;
-        const inputExt = document.getElementById('txtComprobanteTarjeta');
-        if(inputExt) comprobanteExt = inputExt.value.trim();
+        compId = document.getElementById('inputComprobanteTarjeta')?.value || 2;
+        comprobanteExt = document.getElementById('txtComprobanteTarjeta')?.value?.trim() || null;
         
     } else if (tipo === 'TRANSFERENCIA') {
-        const valBancoTrans = document.getElementById('inputBancoTransferencia').value;
+        const valBancoTrans = document.getElementById('inputBancoTransferencia')?.value;
         if (!valBancoTrans || valBancoTrans.trim() === "") { window.mostrarNotificacion("⚠️ Selecciona el Banco", 'error'); return; }
         entidadId = valBancoTrans;
-        numOp = document.getElementById('numOperacionTransferencia').value;
+        numOp = document.getElementById('numOperacionTransferencia')?.value;
         if (!numOp) { window.mostrarNotificacion("⚠️ Ingrese el N° Operación", 'error'); return; }
-        titularTransferencia = document.getElementById('nombreTitularTransferencia').value;
+        titularTransferencia = document.getElementById('nombreTitularTransferencia')?.value;
         if (!titularTransferencia) { window.mostrarNotificacion("⚠️ Ingrese el nombre del Titular", 'error'); return; }
-        const inputCompTrans = document.getElementById('inputComprobanteTransferencia');
-        if(inputCompTrans) compId = inputCompTrans.value;
+        compId = document.getElementById('inputComprobanteTransferencia')?.value || 2;
     }
 
     const originalText = btn.innerHTML;
@@ -311,9 +293,8 @@ async function procesarPago(e, form, tipo, idInputFam, idContenedorFam) {
 
     const inputDoc = document.getElementById('clienteDoc');
     const inputNom = document.getElementById('clienteNombre');
-    const clienteDocFinal = inputDoc && inputDoc.value ? inputDoc.value.trim() : "00000000";
+    const clienteDocFinal = inputDoc?.value ? inputDoc.value.trim() : "00000000";
     
-    // Si es transferencia, usamos el titular como nombre de cliente. Si no, "Público General"
     let clienteNombreFinal = "Publico General";
     if (tipo === 'TRANSFERENCIA' && titularTransferencia) {
         clienteNombreFinal = titularTransferencia.toUpperCase();
@@ -321,13 +302,12 @@ async function procesarPago(e, form, tipo, idInputFam, idContenedorFam) {
         clienteNombreFinal = inputNom.value.trim();
     }
 
-    // 3. Crear el paquete de datos corregido (eliminado el arrDetalles que rompía todo)
     const payload = {
         usuarioID: parseInt(window.USUARIO_ID),
         tipoComprobanteID: parseInt(compId),
         clienteDoc: clienteDocFinal,
         clienteNombre: clienteNombreFinal,
-        detalles: [{ "CategoriaID": categoriaFinal, "Monto": monto }], // <-- ¡CORREGIDO AQUÍ!
+        detalles: [{ "CategoriaID": categoriaFinal, "Monto": monto }],
         pagos: [{
             "FormaPago": tipo === 'YAPE' ? 'QR' : (tipo === 'TARJETA' ? 'TARJETA' : 'TRANSFERENCIA'),
             "Monto": monto,
@@ -351,23 +331,27 @@ async function procesarPago(e, form, tipo, idInputFam, idContenedorFam) {
             window.mostrarNotificacion(` VENTA EXITOSA\nTicket: ${data.Comprobante || data.comprobante}`);
             form.reset();
             
-            // Limpieza general
             const cont = document.getElementById(idContenedorFam);
             if(cont) cont.querySelectorAll('.seleccionado').forEach(el => el.classList.remove('seleccionado'));
             if(inputFam) inputFam.value = "";
             
-            // Limpieza específica por pestaña
             if (tipo === 'YAPE') {
-                document.getElementById('inputDestino').value = "1";
-                document.getElementById('inputComprobante').value = "2";
+                const idDestino = document.getElementById('inputDestino');
+                const idComp = document.getElementById('inputComprobante');
+                if(idDestino) idDestino.value = "1";
+                if(idComp) idComp.value = "2";
                 document.getElementById('selectorDestino')?.querySelectorAll('.seleccionado').forEach(b => b.classList.remove('seleccionado'));
             } else if (tipo === 'TARJETA') {
-                document.getElementById('inputBancoTarjeta').value = "";
-                document.getElementById('inputComprobanteTarjeta').value = "2";
+                const idBancoT = document.getElementById('inputBancoTarjeta');
+                const idCompT = document.getElementById('inputComprobanteTarjeta');
+                if(idBancoT) idBancoT.value = "";
+                if(idCompT) idCompT.value = "2";
                 document.getElementById('selectorBancoTarjeta')?.querySelectorAll('.seleccionado').forEach(b => b.classList.remove('seleccionado'));
             } else if (tipo === 'TRANSFERENCIA') {
-                document.getElementById('inputBancoTransferencia').value = "";
-                document.getElementById('inputComprobanteTransferencia').value = "2";
+                const idBancoTrans = document.getElementById('inputBancoTransferencia');
+                const idCompTrans = document.getElementById('inputComprobanteTransferencia');
+                if(idBancoTrans) idBancoTrans.value = "";
+                if(idCompTrans) idCompTrans.value = "2";
                 document.getElementById('selectorBancoTransferencia')?.querySelectorAll('.seleccionado').forEach(b => b.classList.remove('seleccionado'));
             }
             cargarMetodosPago();
