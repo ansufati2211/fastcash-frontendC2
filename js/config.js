@@ -4,16 +4,14 @@
 // Definimos las variables base en el objeto WINDOW
 
 // COMENTADO: Evitamos conexión accidental a Railway durante desarrollo
-/*
+
 const esLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.2';
 
 window.BASE_URL = esLocal 
     ? 'http://localhost:8080/api' 
-    : 'https://fastcash-backend-production.up.railway.app/api';
-*/
+    : 'https://fastcash-backendc2-production.up.railway.app/api';
 
-// NUEVA CONFIGURACIÓN: Forzamos el backend local de Cliente 2
-window.BASE_URL = 'http://localhost:8080/api'; 
+
 
 window.CAJA_ABIERTA = false; 
 window.USUARIO_ID = null;
