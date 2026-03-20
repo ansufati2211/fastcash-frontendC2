@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../img/img/LogoYapeRojas.png" type="image/png">
-    <title>Sistema de Caja - Rojas Super</title>
+    <link rel="shortcut icon" href="/img/img/logorojasya2.png" type="image/png">
+    <title>Sistema de Caja - Rojas Ya</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
@@ -16,12 +16,12 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     
 
-    <link rel="stylesheet" href="../css/styles/base.css">
-    <link rel="stylesheet" href="../css/styles/layout.css">
-    <link rel="stylesheet" href="../css/styles/ventas.css">
-    <link rel="stylesheet" href="../css/styles/tablas-modales.css">
-    <link rel="stylesheet" href="../css/styles/admin-reportes.css">
-    <link rel="stylesheet" href="../css/styles/media-queries.css">
+    <link rel="stylesheet" href="/css/styles/base.css">
+    <link rel="stylesheet" href="/css/styles/layout.css">
+    <link rel="stylesheet" href="/css/styles/ventas.css">
+    <link rel="stylesheet" href="/css/styles/tablas-modales.css">
+    <link rel="stylesheet" href="/css/styles/admin-reportes.css">
+    <link rel="stylesheet" href="/css/styles/media-queries.css">
 
     <!-- <link rel="stylesheet" href="/css/styles.css"> -->
 </head>
@@ -30,12 +30,12 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-contenedor">
-                <img src="../img/img/LogoYapeRojas.png" class="logo-sistema" alt="Rojas Super">
+                <img src="/img/img/logorojasya.png" class="logo-sistema" alt="Rojas Ya">
             </div>
             
             <div class="perfil-caja">
                 <div class="avatar-placeholder">
-                    <img src="../img/icon/mujer.png" alt="Foto" id="fotoPerfilUsuario" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    <img src="/img/icon/mujer.png" alt="Foto" id="fotoPerfilUsuario" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                 </div>
                 
                 <div class="info-usuario-sidebar">
@@ -49,19 +49,25 @@
             <li class="titulo-seccion-menu">OPERACIONES</li>
             <li class="item-menu activo" data-target="vista-yape">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/codigo-qr-icon.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/codigo-qr-icon.png" class="icon-foto"></div>
                     <span class="texto-menu">Venta Yape/Plin</span>
                 </a>
             </li>
             <li class="item-menu" data-target="vista-tarjeta">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/tarjeta-icon.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/tarjeta-icon.png" class="icon-foto"></div>
                     <span class="texto-menu">Venta Tarjeta</span>
                 </a>
             </li>
+            <li class="item-menu" data-target="vista-transferencia">
+            <a href="#">
+            <div class="icono-wrapper"><img src="../img/icon/transferencia-movil.png" class="icon-foto" onerror="this.src='../img/icon/tarjeta-icon.png'"></div>
+            <span class="texto-menu">Transferencias</span>
+            </a>
+            </li>
             <li class="item-menu" data-target="vista-anulacion">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/anular-icon.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/anular-icon.png" class="icon-foto"></div>
                     <span class="texto-menu">Historial / Anular</span>
                 </a>
             </li>
@@ -70,32 +76,32 @@
             
             <li class="item-menu admin" id="btn-nav-admin" style="display: none;" data-target="vista-admin-maestros">
                 <a href="#" onclick="mostrarSeccionAdmin()"> 
-                    <div class="icono-wrapper"><img src="../img/icon/configuracion-web.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/configuracion-web.png" class="icon-foto"></div>
                     <span class="texto-menu">Configuración</span>
                 </a>
             </li>
             <li class="item-menu admin" data-target="vista-reportes">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/reporte-icon.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/reporte-icon.png" class="icon-foto"></div>
                     <span class="texto-menu">Reportes Excel</span>
                 </a>
             </li>
             <li class="item-menu admin" data-target="vista-roles">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/agregar-usuario.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/agregar-usuario.png" class="icon-foto"></div>
                     <span class="texto-menu">Usuarios & Turnos</span>
                 </a>
             </li>
             <li class="item-menu admin" data-target="vista-financiero">
                 <a href="#">
-                    <div class="icono-wrapper"><img src="../img/icon/grafico.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/grafico.png" class="icon-foto"></div>
                     <span class="texto-menu">Gráficos Dashboard</span>
                 </a>
             </li>
             
             <li class="item-menu cierre" data-target="vista-cierre">
                 <a href="#" class="btn-cierre-sidebar">
-                    <div class="icono-wrapper"><img src="../img/icon/cierreTurno-icon.png" class="icon-foto"></div>
+                    <div class="icono-wrapper"><img src="/img/icon/cierreTurno-icon.png" class="icon-foto"></div>
                     <span class="texto-menu">Cierre de Caja</span>
                 </a>
             </li>
@@ -245,6 +251,52 @@
 
                 </div>
             </section>
+
+           <section id="vista-transferencia" class="vista-seccion">
+    <div class="contenedor-ventas-pro">
+        
+        <div class="panel-transaccion-pro" style="width: 100%; max-width: 900px; margin: 0 auto;">
+            
+            <div class="cabecera-simple" style="margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                <h3>🏦 Venta por Transferencia</h3>
+            </div>
+
+            <form id="formTransferencia" class="form-grid-pro">
+                
+                <div class="col-monto">
+                    <h2 class="titulo-pago" style="color:#059669;">🏦 Monto Transferido</h2>
+                    <div class="input-hero">
+                        <span class="moneda">S/</span>
+                        <input type="number" id="montoTransferencia" placeholder="0.00" step="0.01" required>
+                    </div>
+
+                    <input type="hidden" id="inputComprobanteTransferencia" value="2">
+                </div>
+
+                <div class="col-detalles">
+                    <label class="label-separador">Banco de Destino:</label>
+                    <div class="selector-bancos wrap-grid" id="selectorBancoTransferencia">
+                        <p style="font-size:0.8rem;">Cargando bancos del sistema...</p>
+                    </div>
+                    <input type="hidden" id="inputBancoTransferencia">
+                    
+                    <div class="input-operacion-wrapper" style="margin-bottom: 0.8rem;">
+                        <label>Nombre del Titular</label>
+                        <input type="text" id="nombreTitularTransferencia" placeholder="Ej: Distribuidora..." required>
+                    </div>
+
+                    <div class="input-operacion-wrapper">
+                        <label>N° Operación</label>
+                        <input type="text" id="numOperacionTransferencia" placeholder="Ej: 123456789...." maxlength="20" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-registrar-grande" style="background: #059669;">CONFIRMAR TRANSFERENCIA</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
 
             <section id="vista-anulacion" class="vista-seccion">
                 <div class="contenedor-tabla-registro">
@@ -445,7 +497,7 @@
         <div class="grid-stats">
             <div class="stat-card digital">
                 <div class="stat-icon">
-                    <img src="../img/icon/codigo-qr-icon.png" alt="QR" onerror="this.style.display='none'; this.parentElement.innerHTML='📱'">
+                    <img src="/img/icon/codigo-qr-icon.png" alt="QR" onerror="this.innerText='📱'">
                 </div>
                 <div class="stat-info">
                     <span class="stat-label">Billeteras Digitales</span>
@@ -456,7 +508,7 @@
 
             <div class="stat-card card">
                 <div class="stat-icon">
-                    <img src="../img/icon/tarjeta-icon.png" alt="Card" onerror="this.style.display='none'; this.parentElement.innerHTML='💳'">
+                    <img src="/img/icon/tarjeta-icon.png" alt="Card" onerror="this.innerText='💳'">
                 </div>
                 <div class="stat-info">
                     <span class="stat-label">Cobros con Tarjeta</span>
@@ -490,8 +542,10 @@
 
                 <div id="ticketImpresion" class="ticket-paper">
                     <div class="ticket-header">
-                        <h3>FASTCASH MARKET ROJAS</h3>
-                        <p>RUC: 20606916061</p>
+                        <img src="../img/img/logorojasya2.png" class="logo-ticket" alt="Logo Rojas Ya">
+                        <h3>ROJAS YA S.A.C</h3>
+                        <p>RUC: 20611647299</p>
+                        <p>A.V ZARUMILLA S/N (FABRICA EX-SINALCO)</p>
                         <div class="separator-dashed"></div>
                         <h4>CIERRE DE TURNO</h4>
                         <div class="ticket-meta">
@@ -504,11 +558,9 @@
                     
                     <div class="ticket-body">
                         <div class="fila-ticket"><span>YAPE/PLIN:</span><span id="ticketYapePrint">S/ 0.00</span></div>
-                        <div class="fila-ticket"><span>TARJETAS:</span><span id="ticketTarjetaPrint">S/ 0.00</span></div>
-                        <div class="fila-ticket danger"><span>(-) ANULADO:</span><span id="ticketAnuladoPrint">S/ 0.00</span></div>
-                        <div class="separator-solid"></div>
-                        <div class="fila-ticket total"><span>TOTAL VENTA:</span><span id="ticketTotalPrint">S/ 0.00</span></div>
-                        <div class="separator-dashed"></div>
+<div class="fila-ticket"><span>TARJETAS:</span><span id="ticketTarjetaPrint">S/ 0.00</span></div>
+<div class="fila-ticket"><span>TRANSF:</span><span id="ticketTransferPrint">S/ 0.00</span></div>
+<div class="fila-ticket danger"><span>(-) ANULADO:</span><span id="ticketAnuladoPrint">S/ 0.00</span></div>
 
 <div id="ticketZonaDetalles" style="display: none; margin-top: 5px; padding-bottom: 5px;">
     <div class="separator-dashed" style="margin-top: 5px; margin-bottom: 5px;"></div>
@@ -654,13 +706,13 @@
     <script src="/js/script.js"></script>
   -->
 
-    <script src="../js/config.js"></script>
+    <script src="/js/config.js"></script>
 
-    <script src="../js/ui.js"></script>
-    <script src="../js/caja.js"></script>
-    <script src="../js/ventas.js"></script>
-    <script src="../js/reportes.js"></script>
-    <script src="../js/admin.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/caja.js"></script>
+    <script src="/js/ventas.js"></script>
+    <script src="/js/reportes.js"></script>
+    <script src="/js/admin.js"></script>
 
 </body>
 

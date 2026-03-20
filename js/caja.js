@@ -91,9 +91,10 @@ window.cargarDatosCierre = function() {
             if(el) el.textContent = `S/ ${parseFloat(v||0).toFixed(2)}`; 
         };
         
-        // 🚀 OMNI-FALLBACK: Lectura segura a prueba de base de datos
-        const vYape = d.ventasDigital || d.VentasDigital || d.ventasdigital || 0;
+        // 🚀 OMNI-FALLBACK: Ahora lee "ventasQR" y "ventasTransferencia"
+        const vYape = d.ventasQR || d.VentasQR || d.ventasqr || 0;
         const vTar = d.ventasTarjeta || d.VentasTarjeta || d.ventastarjeta || 0;
+        const vTransf = d.ventasTransferencia || d.VentasTransferencia || d.ventastransferencia || 0;
         const vTot = d.totalVendido || d.TotalVendido || d.totalvendido || 0;
         const vAnu = d.totalAnulado || d.TotalAnulado || d.totalanulado || 0;
 
@@ -106,6 +107,7 @@ window.cargarDatosCierre = function() {
         // 2. Llenar PREVISUALIZACIÓN DEL TICKET al instante
         setTxt('ticketYapePrint', vYape);
         setTxt('ticketTarjetaPrint', vTar);
+        setTxt('ticketTransferPrint', vTransf); // <-- Agregado para transferencias
         setTxt('ticketAnuladoPrint', vAnu); 
         setTxt('ticketTotalPrint', vTot); 
 
@@ -157,10 +159,11 @@ window.imprimirCierre = async () => {
         const nomCajero = window.USUARIO_DATA.nombreCompleto || window.USUARIO_DATA.NombreCompleto || window.USUARIO_DATA.username || "CAJERO";
         if(elNombre) elNombre.textContent = nomCajero.toUpperCase();
 
-        setText('ticketYapePrint', data.ventasDigital || data.VentasDigital || data.ventasdigital);
+        setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
         setText('ticketTarjetaPrint', data.ventasTarjeta || data.VentasTarjeta || data.ventastarjeta);
+        setText('ticketTransferPrint', data.ventasTransferencia || data.VentasTransferencia || data.ventastransferencia);
         setText('ticketAnuladoPrint', data.totalAnulado || data.TotalAnulado || data.totalanulado); 
-        setText('ticketTotalPrint', data.totalVendido || data.TotalVendido || data.totalvendido); 
+        setText('ticketTotalPrint', data.totalVendido || data.TotalVendido || data.totalvendido);
 
         // OCULTAR LA ZONA DE DETALLES PARA EL REPORTE RESUMIDO
         const zonaDetalles = document.getElementById('ticketZonaDetalles');
@@ -234,10 +237,12 @@ window.imprimirCierreDetallado = async () => {
         const nomCajero = window.USUARIO_DATA.nombreCompleto || window.USUARIO_DATA.NombreCompleto || window.USUARIO_DATA.username || "CAJERO";
         if(elNombre) elNombre.textContent = nomCajero.toUpperCase();
 
-        setText('ticketYapePrint', data.ventasDigital || data.VentasDigital || data.ventasdigital);
+setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
         setText('ticketTarjetaPrint', data.ventasTarjeta || data.VentasTarjeta || data.ventastarjeta);
+        setText('ticketTransferPrint', data.ventasTransferencia || data.VentasTransferencia || data.ventastransferencia);
+        setText('ticketTransferPrint', data.ventasTransferencia || data.VentasTransferencia || data.ventastransferencia);
         setText('ticketAnuladoPrint', data.totalAnulado || data.TotalAnulado || data.totalanulado); 
-        setText('ticketTotalPrint', data.totalVendido || data.TotalVendido || data.totalvendido); 
+        setText('ticketTotalPrint', data.totalVendido || data.TotalVendido || data.totalvendido);
 
         // 3. Llenar la Tabla de 3 Columnas
         const zonaDetalles = document.getElementById('ticketZonaDetalles');
@@ -260,11 +265,19 @@ window.imprimirCierreDetallado = async () => {
                     
                     const horaFormateada = new Date(fechaStr).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
-                    let infoOperacion = '';
+let infoOperacion = '';
                     if (formaPago === 'EFECTIVO') {
                         infoOperacion = 'EFECTIVO';
                     } else {
-                        let prefijo = (formaPago === 'TARJETA' && entidad !== '-') ? entidad : formaPago;
+                        // Determinamos el prefijo a mostrar en el ticket
+                        let prefijo = formaPago;
+                        
+                        if (formaPago === 'TARJETA' && entidad !== '-') {
+                            prefijo = entidad; // Muestra VISA, MASTERCARD, etc.
+                        } else if (formaPago === 'TRANSFERENCIA') {
+                            prefijo = 'TRANSF'; // Abreviatura solicitada
+                        }
+                        
                         infoOperacion = `${prefijo}: ${numOp}`;
                     }
 

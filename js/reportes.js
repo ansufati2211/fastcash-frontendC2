@@ -234,6 +234,9 @@ window.generarReporte = async (tipo) => {
         ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: lastCol } }, { s: { r: 3, c: 0 }, e: { r: 3, c: 2 } }];
         ws['!autofilter'] = { ref: XLSX.utils.encode_range({ s: { r: 5, c: 0 }, e: { r: range.e.r, c: lastCol } }) };
 
+        // SOLUCIÓN: Identificación segura de tipos de datos para no corromper Excel
+        const headers = Object.keys(data[0]); 
+
         for (let R = range.s.r; R <= range.e.r; ++R) {
             for (let C = range.s.c; C <= range.e.c; ++C) {
                 const cellAddress = XLSX.utils.encode_cell({ c: C, r: R });
@@ -247,34 +250,33 @@ window.generarReporte = async (tipo) => {
                 else if (R === 5) ws[cellAddress].s = sHeaderTabla;
                 else if (R > 5) {
                     const valor = ws[cellAddress].v;
-                    if (typeof valor === 'number' || (typeof valor === 'string' && valor.includes('.'))) {
-                        ws[cellAddress].s = sMoneda; ws[cellAddress].t = 'n';
+                    const headerName = (headers[C] || "").toUpperCase();
+                    
+                    // Solo convierte a número si el nombre de la columna es de dinero
+                    if (headerName.includes("MONTO") || headerName.includes("TOTAL") || headerName.includes("VENDIDO") || headerName.includes("ANULADO")) {
+                        ws[cellAddress].t = 'n';
+                        ws[cellAddress].v = parseFloat(valor) || 0;
+                        ws[cellAddress].s = sMoneda;
                     } else {
                         ws[cellAddress].s = sCeldaData;
+                        ws[cellAddress].t = 's'; // Asegura que todo lo demás sea texto seguro (evita que S.A.C. corrompa el Excel)
                     }
                 }
             }
         }
 
+        // SOLUCIÓN COLUMNAS: Cálculo dinámico de ancho universal
         const colWidths = [];
-        const headers = Object.keys(data[0]);
         for (let C = range.s.c; C <= range.e.c; ++C) {
-            const headerName = (headers[C] || "").toUpperCase();
             let maxWidth = 15;
-            if (headerName.includes("TICKET") || headerName.includes("SISTEMA")) maxWidth = 25; 
-            else if (headerName.includes("METODO") || headerName.includes("PAGO")) maxWidth = 25;
-            else if (headerName.includes("MONTO") || headerName.includes("TOTAL")) maxWidth = 20;
-            else if (headerName.includes("FECHA") || headerName.includes("HORA")) maxWidth = 20;
-            else if (headerName.includes("CAJERO") || headerName.includes("CLIENTE")) maxWidth = 30;
-            
-            for (let R = 5; R <= range.e.r; ++R) { 
+            for (let R = range.s.r; R <= range.e.r; ++R) { 
                 const cell = ws[XLSX.utils.encode_cell({ c: C, r: R })];
-                if (cell) {
-                    const len = (cell.v ? cell.v.toString().length : 0);
+                if (cell && cell.v) {
+                    const len = cell.v.toString().length;
                     if (len > maxWidth) maxWidth = len;
                 }
             }
-            if (maxWidth > 50) maxWidth = 50;
+            if (maxWidth > 40) maxWidth = 40; 
             colWidths.push({ wch: maxWidth + 2 });
         }
         ws['!cols'] = colWidths;

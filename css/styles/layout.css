@@ -94,7 +94,18 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     margin-bottom: 1rem;
 }
-.logo-sistema { height: 45px; filter: brightness(0) invert(1); margin-bottom: 1rem; transition: transform 0.3s ease; }
+.logo-sistema { 
+    height: 9rem;
+    margin: -3.5rem 0;
+    filter: brightness(0) invert(1); 
+    margin-bottom: 1rem; 
+    transition: transform 0.3s ease; 
+}
+
+.logo-contenedor{
+    justify-content: center;
+    height: 4rem;
+}
 .logo-sistema:hover { transform: scale(1.05); }
 
 .perfil-caja {

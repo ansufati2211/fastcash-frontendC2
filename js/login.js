@@ -2,7 +2,7 @@
 // 1. CONFIGURACIÓN
 // ==========================================
 // Definimos si estamos en entorno local
-const esLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.2';
+// const esLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.2';
 
 // COMENTADO: Evitamos conexión accidental al backend de producción original
 /*

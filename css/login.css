@@ -172,9 +172,11 @@ body {
 }
 
 .logo-login {
-    height: 70px;
+    height: 15rem; 
     width: auto;
-    margin-bottom: 1.5rem;
+    margin-left: -2rem;
+    margin-bottom: -4rem; 
+    margin-top: -6rem;
     filter: drop-shadow(0 0 10px rgba(230, 0, 35, 0.4));
 }
 
