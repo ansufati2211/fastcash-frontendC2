@@ -1,0 +1,339 @@
+.contenedor-ventas-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.panel-categorias-pro { 
+    background: #ffffff; 
+    padding: 1.5rem; 
+    border-radius: var(--radio-xl); 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
+    border: 1px solid var(--border-color);
+}
+
+.cabecera-simple h3 { 
+    color: var(--texto-principal); 
+    font-size: 1.25rem; 
+    font-weight: 800; 
+    margin-bottom: 1rem; 
+    letter-spacing: -0.5px;
+}
+
+.grid-familias-moderna { 
+    display: flex; 
+    gap: 1rem; 
+    overflow-x: auto; 
+    padding-bottom: 10px; 
+    scrollbar-width: none; 
+    cursor: grab;
+}
+.grid-familias-moderna::-webkit-scrollbar { display: none; }
+
+.grid-familias-moderna.arrastrando {
+    cursor: grabbing; 
+}
+
+.grid-familias-moderna.arrastrando .card-familia {
+    pointer-events: none; 
+    transform: scale(0.98); 
+}
+
+.card-familia { 
+    min-width: 100px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 12px; 
+    background: white; 
+    border: 2px solid var(--border-color);
+    position: relative; 
+    border-radius: var(--radio-md); 
+    cursor: pointer; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    opacity: 0;
+    animation: slideInRight 0.4s ease forwards;
+}
+
+.card-familia:nth-child(1) { animation-delay: 0.1s; }
+.card-familia:nth-child(2) { animation-delay: 0.15s; }
+.card-familia:nth-child(3) { animation-delay: 0.2s; }
+.card-familia:nth-child(4) { animation-delay: 0.25s; }
+.card-familia:nth-child(5) { animation-delay: 0.3s; }
+.card-familia:nth-child(6) { animation-delay: 0.35s; }
+
+.card-familia .emoji { 
+    font-size: 2.2rem; 
+    margin-bottom: 5px; 
+    filter: grayscale(0.2); 
+    transition: transform 0.3s ease; 
+}
+.card-familia .label { 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    color: var(--texto-secundario); 
+    text-align: center; 
+}
+
+.card-familia:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+    border-color: #d1d5db; 
+}
+.card-familia:hover .emoji {
+    transform: scale(1.1); 
+}
+.card-familia:active {
+    transform: scale(0.95);
+}
+
+.panel-transaccion-pro { 
+    background: #ffffff; 
+    padding: 2rem; 
+    border-radius: var(--radio-xl); 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
+    border: 1px solid var(--border-color);
+    flex: 1; 
+}
+
+.form-grid-pro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    height: 100%;
+}
+
+.col-monto { display: flex; flex-direction: column; }
+.col-detalles { display: flex; flex-direction: column; }
+
+.titulo-pago { 
+    color: var(--color-primario); 
+    margin-bottom: 1rem; 
+    font-weight: 800; 
+    font-size: 1.5rem; 
+    letter-spacing: -0.5px;
+}
+
+.input-hero { 
+    display: flex; 
+    align-items: center; 
+    background: #f9fafb;
+    padding: 15px 20px; 
+    border-radius: var(--radio-md); 
+    border: 2px solid transparent; 
+    transition: all 0.3s ease; 
+    margin-bottom: auto; 
+}
+.input-hero:focus-within { 
+    background: white; 
+    border-color: var(--color-primario); 
+    box-shadow: 0 0 0 4px rgba(230,0,35,0.1); 
+    transform: translateY(-2px); 
+}
+.input-hero .moneda { font-size: 2rem; font-weight: 700; color: var(--texto-terciario); margin-right: 10px; }
+.input-hero input { 
+    border: none; background: transparent; font-size: 3.5rem; font-weight: 800; 
+    width: 100%; color: var(--texto-principal); outline: none; box-shadow: none; 
+}
+
+.selector-tipo { 
+    display: flex; gap: 8px; background: #f3f4f6; 
+    padding: 6px; border-radius: 12px; margin-top: 1.5rem; 
+}
+.selector-tipo .segmento { 
+    flex: 1; padding: 12px 0; text-align: center; cursor: pointer; font-weight: 700; 
+    color: var(--texto-secundario); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    border: 2px solid transparent; position: relative; border-radius: 8px; background: transparent; 
+}
+.selector-tipo .segmento:hover { color: var(--texto-principal); }
+
+.label-separador { font-size: 0.85rem; font-weight: 700; color: var(--texto-secundario); margin-bottom: 0.6rem; display: block; text-transform: uppercase; letter-spacing: 0.5px;}
+.selector-bancos { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    gap: 12px; 
+    margin-bottom: 1.5rem; 
+}
+
+.chip-banco { 
+    background: #ffffff; 
+    padding: 12px 10px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 12px; 
+    cursor: pointer; 
+    font-weight: 700; 
+    color: var(--texto-secundario); 
+    font-size: 0.85rem; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    position: relative; 
+    box-shadow: var(--sombra-sm); 
+}
+
+.chip-banco:hover { 
+    border-color: #d1d5db; 
+    transform: translateY(-3px); 
+    box-shadow: var(--sombra-md); 
+    color: var(--texto-principal);
+}
+.chip-banco:active {
+    transform: scale(0.95);
+}
+
+.chip-banco .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.dot.bcp { background: #002a8d; } 
+.dot.bbva { background: #004481; } 
+.dot.personal { background: #333; } 
+.dot.scotia { background: #ec111a; } 
+.dot.interbank { background: #009c3b; } 
+.dot.generic { background-color: #555; }
+.chip-banco.seleccionado, 
+.card-familia.seleccionado, 
+.segmento.seleccionado { 
+    background-color: #eff6ff !important; 
+    border: 2px solid var(--color-primario) !important; 
+    color: #111827 !important; 
+    box-shadow: 0 4px 15px rgba(230, 0, 35, 0.15) !important; 
+    transform: scale(1.03); 
+    z-index: 10; 
+}
+.card-familia.seleccionado .emoji {
+    filter: grayscale(0);
+    transform: scale(1.15);
+}
+
+.chip-banco.seleccionado::after, 
+.card-familia.seleccionado::after, 
+.segmento.seleccionado::after { 
+content: ""; 
+    position: absolute; 
+    top: -8px; 
+    right: -8px; 
+    width: 24px; 
+    height: 24px; 
+    background-color: var(--color-primario); /* Fondo del círculo cambia según el tema */
+    border: 2px solid white;
+    border-radius: 50%; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3); 
+    
+    /* El icono de check en blanco usando SVG integrado para no depender de la ruta local */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); 
+    background-size: 12px 12px; 
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    
+    z-index: 11; 
+    animation: popCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popCheck {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+body[data-theme="dark"] .chip-banco.seleccionado::after, 
+body[data-theme="dark"] .card-familia.seleccionado::after, 
+body[data-theme="dark"] .segmento.seleccionado::after {
+    border-color: #1f2937;
+}
+body[data-theme="dark"] .chip-banco.seleccionado, 
+body[data-theme="dark"] .card-familia.seleccionado, 
+body[data-theme="dark"] .segmento.seleccionado {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: white !important;
+}
+
+.input-operacion-wrapper { display: flex; flex-direction: column; margin-bottom: 1.5rem; }
+.input-operacion-wrapper label { font-size: 0.85rem; font-weight: 700; color: var(--texto-secundario); margin-bottom: 0.6rem; text-transform: none; }
+.input-operacion-wrapper input { 
+    border: 2px solid transparent; background: #f9fafb; padding: 14px 16px; 
+    font-family: var(--font-main); font-size: 1.1rem; font-weight: 600; color: var(--texto-principal); 
+    border-radius: 12px; width: 100%; outline: none; transition: all 0.3s ease;
+}
+.input-operacion-wrapper input:focus { 
+    border-color: var(--color-primario); 
+    background: white; 
+    box-shadow: 0 0 0 4px rgba(230,0,35,0.1); 
+}
+
+.btn-registrar-grande { 
+    width: 100%; 
+    padding: 1.2rem; 
+    margin-top: auto; 
+    background: linear-gradient(135deg, var(--color-primario) 0%, #c8002f 100%); 
+    color: white; 
+    border: none; 
+    border-radius: var(--radio-md); 
+    font-size: 1.1rem; 
+    font-weight: 800; 
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(230, 0, 35, 0.25); 
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+}
+.btn-registrar-grande:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 10px 20px rgba(230, 0, 35, 0.35); 
+    filter: brightness(1.05);
+}
+.btn-registrar-grande:active {
+    transform: scale(0.97) translateY(0); 
+    box-shadow: 0 2px 5px rgba(230, 0, 35, 0.2);
+}
+
+@media (max-width: 900px) {
+    .form-grid-pro { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.vista-seccion.activa .panel-categorias-pro {
+    opacity: 0;
+    animation: fadeSlideUpVentas 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.vista-seccion.activa .panel-transaccion-pro {
+    opacity: 0;
+    animation: fadeSlideUpVentas 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.vista-seccion.activa .col-monto .titulo-pago { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.2s; }
+.vista-seccion.activa .col-monto .input-hero { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.3s; }
+.vista-seccion.activa .col-monto .selector-tipo { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.4s; }
+
+.vista-seccion.activa .col-detalles > label { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.25s; }
+.vista-seccion.activa .col-detalles .selector-bancos { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.35s; }
+.vista-seccion.activa .col-detalles .input-operacion-wrapper { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.45s; }
+.vista-seccion.activa .col-detalles .btn-registrar-grande { opacity: 0; animation: fadeSlideUpVentas 0.4s ease forwards 0.55s; }
+
+.vista-seccion.activa .chip-banco {
+    opacity: 0;
+    animation: popInBancos 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.vista-seccion.activa .chip-banco:nth-child(1) { animation-delay: 0.40s; }
+.vista-seccion.activa .chip-banco:nth-child(2) { animation-delay: 0.45s; }
+.vista-seccion.activa .chip-banco:nth-child(3) { animation-delay: 0.50s; }
+.vista-seccion.activa .chip-banco:nth-child(4) { animation-delay: 0.55s; }
+.vista-seccion.activa .chip-banco:nth-child(5) { animation-delay: 0.60s; }
+.vista-seccion.activa .chip-banco:nth-child(n+6) { animation-delay: 0.65s; }
+
+@keyframes fadeSlideUpVentas {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popInBancos {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}

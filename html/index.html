@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../img/img/LogoYapeRojas.png" type="image/png">
+    <title>Sistema de Caja - Rojas Super</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    
+
+    <link rel="stylesheet" href="../css/styles/base.css">
+    <link rel="stylesheet" href="../css/styles/layout.css">
+    <link rel="stylesheet" href="../css/styles/ventas.css">
+    <link rel="stylesheet" href="../css/styles/tablas-modales.css">
+    <link rel="stylesheet" href="../css/styles/admin-reportes.css">
+    <link rel="stylesheet" href="../css/styles/media-queries.css">
+
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-contenedor">
+                <img src="../img/img/LogoYapeRojas.png" class="logo-sistema" alt="Rojas Super">
+            </div>
+            
+            <div class="perfil-caja">
+                <div class="avatar-placeholder">
+                    <img src="../img/icon/mujer.png" alt="Foto" id="fotoPerfilUsuario" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                </div>
+                
+                <div class="info-usuario-sidebar">
+                    <span class="nombre-cajero" id="nombreUsuarioSidebar">Cargando...</span>
+                    <span class="rol-cajero" id="rolUsuarioSidebar">...</span> 
+                </div>
+            </div>
+        </div>
+
+        <ul class="lista-menu">
+            <li class="titulo-seccion-menu">OPERACIONES</li>
+            <li class="item-menu activo" data-target="vista-yape">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/codigo-qr-icon.png" class="icon-foto"></div>
+                    <span class="texto-menu">Venta Yape/Plin</span>
+                </a>
+            </li>
+            <li class="item-menu" data-target="vista-tarjeta">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/tarjeta-icon.png" class="icon-foto"></div>
+                    <span class="texto-menu">Venta Tarjeta</span>
+                </a>
+            </li>
+            <li class="item-menu" data-target="vista-anulacion">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/anular-icon.png" class="icon-foto"></div>
+                    <span class="texto-menu">Historial / Anular</span>
+                </a>
+            </li>
+
+            <li class="titulo-seccion-menu admin">ADMINISTRACIÓN</li>
+            
+            <li class="item-menu admin" id="btn-nav-admin" style="display: none;" data-target="vista-admin-maestros">
+                <a href="#" onclick="mostrarSeccionAdmin()"> 
+                    <div class="icono-wrapper"><img src="../img/icon/configuracion-web.png" class="icon-foto"></div>
+                    <span class="texto-menu">Configuración</span>
+                </a>
+            </li>
+            <li class="item-menu admin" data-target="vista-reportes">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/reporte-icon.png" class="icon-foto"></div>
+                    <span class="texto-menu">Reportes Excel</span>
+                </a>
+            </li>
+            <li class="item-menu admin" data-target="vista-roles">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/agregar-usuario.png" class="icon-foto"></div>
+                    <span class="texto-menu">Usuarios & Turnos</span>
+                </a>
+            </li>
+            <li class="item-menu admin" data-target="vista-financiero">
+                <a href="#">
+                    <div class="icono-wrapper"><img src="../img/icon/grafico.png" class="icon-foto"></div>
+                    <span class="texto-menu">Gráficos Dashboard</span>
+                </a>
+            </li>
+            
+            <li class="item-menu cierre" data-target="vista-cierre">
+                <a href="#" class="btn-cierre-sidebar">
+                    <div class="icono-wrapper"><img src="../img/icon/cierreTurno-icon.png" class="icon-foto"></div>
+                    <span class="texto-menu">Cierre de Caja</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="contenedor-derecho">
+        
+        <header class="header-sistema">
+            <div class="header-izquierda">
+    <button class="btn-hamburguesa" id="btnToggleMenu">
+        <span class="linea linea-1"></span>
+        <span class="linea linea-2"></span>
+        <span class="linea linea-3"></span>
+    </button>
+    
+    <div class="selector-tema-wrapper">
+        <button class="btn-tema" id="btnSelectorTema" title="Cambiar Tema">
+            <span id="iconoTemaActual">🎨</span>
+        </button>
+        <div class="menu-temas" id="menuTemasOpciones">
+            <button class="opcion-tema" data-theme="light"><span class="color-dot light"></span> Modo Claro</button>
+            <button class="opcion-tema" data-theme="dark"><span class="color-dot dark"></span> Modo Oscuro</button>
+            <button class="opcion-tema" data-theme="pink"><span class="color-dot pink"></span> Modo Pink</button>
+            <button class="opcion-tema" data-theme="red"><span class="color-dot red"></span> Modo Rojo</button>
+        </div>
+    </div>
+</div>
+
+            <div class="header-derecha">
+                <div class="turno-info">
+                    <span class="turno-actual fecha-hora-reloj">--:--</span>
+                </div>
+                
+                <button class="btn-abrir-caja" id="btnAbrirCaja" style="display: none;">
+                    📥 Abrir Caja
+                </button>
+                <button class="btn-cerrar-sesion" id="btnCerrarSesion">
+                    <span class="icono-btn">🚪</span> Salir
+                </button>
+            </div>
+        </header>
+
+        <main class="area-trabajo">
+
+            <section id="vista-yape" class="vista-seccion activa">
+                <div class="contenedor-ventas-pro">
+                    
+                    <div class="panel-categorias-pro">
+                        <div class="cabecera-simple">
+                            <h3>🛍️ ¿Qué vendiste?</h3>
+                        </div>
+                        <div class="grid-familias-moderna" id="selectorFamilia">
+                            <p style="text-align:center; width:100%; color:#666;">Cargando familias...</p>
+                        </div>
+                        <input type="hidden" id="inputFamilia">
+                    </div>
+
+                    <div class="panel-transaccion-pro">
+                        <form id="formYape" class="form-grid-pro">
+                            
+                            <div class="col-monto">
+                                <h2 class="titulo-pago">📱 Pago Digital</h2>
+                                <div class="input-hero">
+                                    <span class="moneda">S/</span>
+                                    <input type="number" id="monto" placeholder="0.00" step="0.01" required>
+                                </div>
+                                
+                                <div class="selector-tipo" id="selectorComprobante">
+                                    <button type="button" class="segmento seleccionado" data-value="2">Boleta</button>
+                                    <button type="button" class="segmento" data-value="1">Factura</button>
+                                    <button type="button" class="segmento" data-value="4">Nota</button>
+                                    <input type="hidden" id="inputComprobante" value="2">
+                                </div>
+                            </div>
+
+                            <div class="col-detalles">
+                                <div class="selector-bancos" id="selectorDestino">
+                                    <p style="font-size:0.8rem;">Cargando entidades...</p>
+                                </div>
+                                <input type="hidden" id="inputDestino">
+                                
+                                <div class="input-operacion-wrapper">
+                                    <label>N° Operación</label>
+                                    <input type="text" style="display:none" autocomplete="username">
+                                    <input type="password" style="display:none" autocomplete="current-password">
+                                    <input type="text" id="numOperacion" autocomplete="new-password" placeholder="Ej: 12345678" maxlength="15" required>
+                                </div>
+                                
+                                <button type="submit" class="btn-registrar-grande" style="background: #E60023;">CONFIRMAR VENTA</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="vista-tarjeta" class="vista-seccion">
+                 <div class="contenedor-ventas-pro">
+                    
+                    <div class="panel-categorias-pro">
+                        <div class="cabecera-simple">
+                            <h3>💳 Venta con Tarjeta</h3>
+                        </div>
+                        <div class="grid-familias-moderna" id="selectorFamiliaTarjeta">
+                            <p style="text-align:center; width:100%; color:#666;">Cargando familias...</p>
+                        </div>
+                        <input type="hidden" id="inputFamiliaTarjeta">
+                    </div>
+
+                    <div class="panel-transaccion-pro">
+                        <form id="formTarjeta" class="form-grid-pro">
+                            
+                            <div class="col-monto">
+                                <h2 class="titulo-pago" style="color:#2563eb;">💳 Pago Tarjeta</h2>
+                                <div class="input-hero">
+                                    <span class="moneda">S/</span>
+                                    <input type="number" id="montoTarjeta" placeholder="0.00" step="0.01" required>
+                                </div>
+
+                                <div class="selector-tipo" id="selectorComprobanteTarjeta">
+                                    <button type="button" class="segmento seleccionado" data-value="2">Boleta</button>
+                                    <button type="button" class="segmento" data-value="1">Factura</button>
+                                    <button type="button" class="segmento" data-value="4">Nota</button>
+                                    <input type="hidden" id="inputComprobanteTarjeta" value="2">
+                                </div>
+                            </div>
+
+                            <div class="col-detalles">
+                                <label class="label-separador">Banco del POS:</label>
+                                <div class="selector-bancos wrap-grid" id="selectorBancoTarjeta">
+                                    <p style="font-size:0.8rem;">Cargando bancos...</p>
+                                </div>
+                                <input type="hidden" id="inputBancoTarjeta">
+                                
+                                <div class="input-operacion-wrapper">
+                                    <label>N° Lote / Voucher (6 Dígitos)</label>
+                                    <input type="text" style="display:none" autocomplete="username">
+                                    <input type="password" style="display:none" autocomplete="current-password">
+                                    <input type="text" id="numOperacionTarjeta" autocomplete="new-password" placeholder="Ej: 123456" maxlength="6" required>
+                                </div>
+                                
+                                <button type="submit" class="btn-registrar-grande" style="background: #2563eb;">PROCESAR TARJETA</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="vista-anulacion" class="vista-seccion">
+                <div class="contenedor-tabla-registro">
+
+                    <div class="cabecera-tabla">
+                        <div class="titulo-seccion">
+                            <h2>🚫 Historial de Ventas (Hoy)</h2>
+                            <p>Supervisión y Anulaciones en tiempo real.</p>
+                        </div>
+                        <div class="controles-derecha" style="display: flex; align-items: center; gap: 10px;">
+
+                            <div id="wrapperFiltroHistorial" style="display: none;">
+                                <select id="filtroUsuarioHistorial" class="input-moderno" onchange="cargarHistorial()"
+                                    style="padding: 0.6rem; min-width: 150px;">
+                                    <option value="">-- Ver Todos --</option>
+                                </select>
+                            </div>
+
+                            <button class="btn-refresh-moderno" onclick="cargarHistorial()">
+                                <span class="icono-refresh">🔄</span> Refrescar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tabla-responsive">
+                        <table class="tabla-transacciones">
+                            <thead>
+                                <tr>
+                                    <th>Cajero</th>
+                                    <th>Medio</th>
+                                    <th>Familia</th>
+                                    <th>Ref / Op</th>
+                                    <th>Monto</th>
+                                    <th>Hora</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaTransacciones"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vista-admin-maestros" class="vista-seccion">
+                <div class="contenedor-tabla-registro">
+                    <div class="cabecera-tabla">
+                        <div class="titulo-seccion">
+                            <h2>⚙️ Configuración del Sistema</h2>
+                            <p>Gestiona Categorías y Entidades Financieras</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-container">
+                        <div class="admin-tabs" style="margin-bottom: 20px;">
+                            <button onclick="cargarAdminCategorias()" class="btn-tab">📦 Categorías</button>
+                            <button onclick="cargarAdminEntidades()" class="btn-tab">🏦 Bancos y Billeteras</button>
+                        </div>
+                        <hr style="border:0; border-top:1px solid #eee; margin-bottom:20px;">
+
+                        <div id="admin-workspace">
+                            <p style="color: #666; text-align: center; padding: 20px;">Seleccione una opción arriba para
+                                comenzar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vista-reportes" class="vista-seccion">
+                <div class="contenedor-tabla-registro"
+                    style="background: transparent; box-shadow: none; border: none; padding: 0;">
+
+                    <div class="titulo-seccion" style="margin-bottom: 1.5rem;">
+                        <h2>📊 Centro de Reportes</h2>
+                        <p>Genera y descarga información histórica en Excel Profesional.</p>
+                    </div>
+
+                    <div class="filtros-reporte-unificados">
+                        <div class="grupo-filtro">
+                            <label>📅 Fecha Inicio</label>
+                            <input type="date" id="fechaInicio" class="input-moderno">
+                        </div>
+                        <div class="grupo-filtro">
+                            <label>📅 Fecha Fin</label>
+                            <input type="date" id="fechaFin" class="input-moderno">
+                        </div>
+
+                        <div class="grupo-filtro" id="contenedorFiltroUsuario" style="display: none; flex-grow: 1;">
+                            <label>👤 Filtrar por Cajero</label>
+                            <select id="filtroUsuarioReporte" class="input-moderno">
+                                <option value="">-- Todos los Cajeros --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-reportes"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+                        <div class="card-reporte-accion">
+                            <div class="icono-grande">🧾</div>
+                            <h3>Reporte de Ventas Detallado</h3>
+                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5;">
+                                Exporta cada transacción individual incluyendo método de pago (Yape/Tarjeta), número de
+                                operación y productos.
+                            </p>
+                            <button class="btn-descarga-premium" onclick="generarReporte('GENERAL')">
+                                <span>📥</span> Descargar Excel
+                            </button>
+                        </div>
+
+                        <div class="card-reporte-accion">
+                            <div class="icono-grande">📦</div>
+                            <h3>Historial de Cierres de Caja</h3>
+                            <p style="color: #666; font-size: 0.9rem; line-height: 1.5;">
+                                Visualiza aperturas y cierres de turno, montos iniciales, finales y cuadres de caja por
+                                usuario.
+                            </p>
+                            <button class="btn-descarga-premium" onclick="generarReporte('CAJAS')">
+                                <span>📥</span> Descargar Excel
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="vista-roles" class="vista-seccion">
+                <div class="contenedor-tabla-registro">
+                    <div class="cabecera-tabla">
+                        <div class="titulo-seccion">
+                            <h2>👥 Gestión de Usuarios</h2>
+                            <p>Crea y administra accesos.</p>
+                        </div>
+                        <button class="btn-nuevo-usuario"
+                            onclick="document.querySelector('.btn-nuevo-usuario').onclick()">+ Nuevo Usuario</button>
+                    </div>
+                    <div class="tabla-responsive">
+                        <table class="tabla-transacciones">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Usuario</th>
+                                    <th>Turno</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Contraseña</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaUsuarios">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vista-financiero" class="vista-seccion">
+                <div class="contenedor-tabla-registro">
+
+                    <div class="cabecera-tabla">
+                        <div class="titulo-seccion">
+                            <h2>📈 Dashboard Financiero (Hoy)</h2>
+                        </div>
+                        <button class="btn-refresh-moderno" onclick="inicializarGraficos()">
+                            <span class="icono-refresh">🔄</span> Actualizar Datos
+                        </button>
+                    </div>
+
+                    <div class="grid-graficos">
+                        <div class="card-grafico">
+                            <h3>Ventas por Categoría</h3>
+                            <div class="canvas-wrapper"><canvas id="graficoPastel"></canvas></div>
+                        </div>
+                        <div class="card-grafico">
+                            <h3>Ingresos por Medio de Pago</h3>
+                            <div class="canvas-wrapper"><canvas id="graficoBarras"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+           <section id="vista-cierre" class="vista-seccion">
+    <div class="dashboard-cierre">
+
+        <header class="header-dashboard">
+            <div class="titulo-area">
+                <div class="icono-header">🏁</div>
+                <div>
+                    <h2>Cierre de Turno</h2>
+                    <p>Resumen de operaciones del día</p>
+                </div>
+            </div>
+            <div class="chip-fecha">
+                📅 <span id="fechaCierre">--/--/----</span>
+            </div>
+        </header>
+
+        <div class="grid-stats">
+            <div class="stat-card digital">
+                <div class="stat-icon">
+                    <img src="../img/icon/codigo-qr-icon.png" alt="QR" onerror="this.style.display='none'; this.parentElement.innerHTML='📱'">
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Billeteras Digitales</span>
+                    <h3 class="stat-value" id="totalYape">S/ 0.00</h3>
+                </div>
+                <div class="stat-trend">Yape / Plin</div>
+            </div>
+
+            <div class="stat-card card">
+                <div class="stat-icon">
+                    <img src="../img/icon/tarjeta-icon.png" alt="Card" onerror="this.style.display='none'; this.parentElement.innerHTML='💳'">
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Cobros con Tarjeta</span>
+                    <h3 class="stat-value" id="totalTarjeta">S/ 0.00</h3>
+                </div>
+                <div class="stat-trend">Visa / Master</div>
+            </div>
+
+            <div class="stat-card danger">
+                <div class="stat-icon">🚫</div>
+                <div class="stat-info">
+                    <span class="stat-label">Operaciones Anuladas</span>
+                    <h3 class="stat-value" id="totalAnulado">S/ 0.00</h3>
+                </div>
+                <div class="stat-trend">Anulaciones</div>
+            </div>
+
+            <div class="stat-card total-highlight">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <span class="stat-label">Venta Total Real</span>
+                    <h1 class="stat-value-big" id="totalGeneral">S/ 0.00</h1>
+                </div>
+                <div class="stat-bg-decoration"></div>
+            </div>
+        </div>
+
+        <div class="area-accion-final">
+            <div class="ticket-preview-wrapper">
+                <div class="ticket-visual-header">📄 Previsualización de Impresión</div>
+
+                <div id="ticketImpresion" class="ticket-paper">
+                    <div class="ticket-header">
+                        <h3>FASTCASH MARKET ROJAS</h3>
+                        <p>RUC: 20606916061</p>
+                        <div class="separator-dashed"></div>
+                        <h4>CIERRE DE TURNO</h4>
+                        <div class="ticket-meta">
+                            <p><span>Fecha:</span> <span id="ticketFecha">--/--/--</span></p>
+                            <p><span>Hora:</span> <span id="ticketHora">--:--</span></p>
+                            <p><span>Cajero:</span> <span id="ticketCajeroNombre">---</span></p>
+                        </div>
+                        <div class="separator-dashed"></div>
+                    </div>
+                    
+                    <div class="ticket-body">
+                        <div class="fila-ticket"><span>YAPE/PLIN:</span><span id="ticketYapePrint">S/ 0.00</span></div>
+                        <div class="fila-ticket"><span>TARJETAS:</span><span id="ticketTarjetaPrint">S/ 0.00</span></div>
+                        <div class="fila-ticket danger"><span>(-) ANULADO:</span><span id="ticketAnuladoPrint">S/ 0.00</span></div>
+                        <div class="separator-solid"></div>
+                        <div class="fila-ticket total"><span>TOTAL VENTA:</span><span id="ticketTotalPrint">S/ 0.00</span></div>
+                        <div class="separator-dashed"></div>
+
+<div id="ticketZonaDetalles" style="display: none; margin-top: 5px; padding-bottom: 5px;">
+    <div class="separator-dashed" style="margin-top: 5px; margin-bottom: 5px;"></div>
+    <h4 style="text-align: center; margin: 0 0 5px 0; font-size: 11px;">DETALLE DE TRANSACCIONES</h4>
+    <table style="width: 100%; font-size: 10px; text-align: left; border-collapse: collapse; font-family: monospace; line-height: 1.2;">
+        <thead>
+            <tr style="border-bottom: 1px dashed black;">
+                <th style="padding: 2px 0; width: 22%;">HORA</th>
+                <th style="padding: 2px 2px; width: 50%;">OP/REF</th>
+                <th style="text-align: right; padding: 2px 0; width: 28%;">MONTO</th>
+            </tr>
+        </thead>
+        <tbody id="ticketTablaDetalles">
+            </tbody>
+    </table>
+    <div class="separator-dashed" style="margin-top: 5px;"></div>
+</div>
+                        </div>
+                    
+                    <div class="ticket-footer">
+                        <p>• Firma Conforme •</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="botones-cierre" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; justify-content: center; width: 100%;">
+                
+                <button class="btn-imprimir-cierre btn-cerrar-caja-pro" onclick="imprimirCierre()" style="flex: 1; min-width: 250px;">
+                    <span class="icon-btn">🖨️</span>
+                    <span>CERRAR CAJA (RESUMEN)</span>
+                </button>
+
+                <button class="btn-imprimir-cierre-detallado btn-cerrar-caja-pro" onclick="imprimirCierreDetallado()" style="flex: 1; min-width: 250px; background-color: #374151; border-color: #1f2937;">
+                    <span class="icon-btn">🧾</span>
+                    <span>CERRAR CAJA (DETALLADO)</span>
+                </button>
+
+            </div>
+            </div>
+    </div>
+</section>
+
+        </main>
+    </div>
+
+    <div id="modalUsuario" class="modal">
+        <div class="modal-contenido-bonito">
+            <div class="modal-header">
+                <h2 id="tituloModalUsuario">Usuario</h2>
+                <span class="cerrar-modal" onclick="cerrarModalUsuario()">&times;</span>
+            </div>
+            <form id="formUsuario">
+                <input type="hidden" id="idUsuarioEdicion">
+
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombreUsuario" placeholder="Ej: Juan Perez" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Usuario (Login)</label>
+                    <input type="text" id="usernameUsuario" placeholder="Ej: jperez" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Rol</label>
+                        <select id="rolUsuario" class="input-select-modal">
+                            <option value="Cajero">Cajero</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select id="estadoUsuario" class="input-select-modal">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Turno Asignado</label>
+                    <select id="turnoUsuario" class="input-select-modal">
+                        <option value="1">MAÑANA</option>
+                        <option value="2">TARDE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="text" id="passUsuario" placeholder="(Dejar vacío para mantener actual)">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalUsuario()">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-admin" class="modal">
+        <div class="modal-contenido-bonito">
+            <div class="modal-header">
+                <h2 id="modal-admin-titulo">Nuevo Registro</h2>
+                <span class="cerrar-modal" onclick="cerrarModalAdmin()">&times;</span>
+            </div>
+
+            <form id="form-admin">
+                <input type="hidden" id="admin-id">
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" id="admin-nombre" class="input-moderno" required
+                        style="width: 100%; padding: 10px;">
+                </div>
+
+                <div class="form-group" id="group-admin-tipo" style="display:none;">
+                    <label>Tipo:</label>
+                    <select id="admin-tipo" class="input-select-modal" style="width: 100%;">
+                        <option value="BANCO">Banco</option>
+                        <option value="BILLETERA">Billetera Digital</option>
+                        <option value="OTRO">Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Estado:</label>
+                    <select id="admin-activo" class="input-select-modal" style="width: 100%;">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModalAdmin()">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--
+    <script src="/js/script.js"></script>
+  -->
+
+    <script src="../js/config.js"></script>
+
+    <script src="../js/ui.js"></script>
+    <script src="../js/caja.js"></script>
+    <script src="../js/ventas.js"></script>
+    <script src="../js/reportes.js"></script>
+    <script src="../js/admin.js"></script>
+
+</body>
+
+</html>

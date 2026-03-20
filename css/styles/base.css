@@ -1,0 +1,270 @@
+:root {
+    --color-primario: #E60023; 
+    --color-secundario: #111827;
+    --color-acento: #ff4d6d;
+    
+    /* Fondos */
+    --color-fondo-app: #f9fafb; 
+    --color-sidebar-bg: #111827; 
+    --color-header: #ffffff;
+    
+    /* Textos */
+    --texto-principal: #1f2937;
+    --texto-secundario: #6b7280;
+    --texto-terciario: #9ca3af;
+    --texto-blanco: #ffffff;
+    
+    /* Sombras y bordes */
+    --sombra-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --sombra-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --sombra-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --border-color: #e5e7eb;
+    
+    --alto-header: 70px;
+    --ancho-sidebar: 270px;
+    --ancho-sidebar-colapsado: 80px;
+    --radio-md: 16px;
+    --radio-full: 9999px;
+    --radio-xl: 24px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Merriweather Sans", sans-serif, 'Segoe UI', Roboto, sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+    color: var(--texto-principal); height: 100vh; display: flex; flex-direction: row; overflow: hidden;
+}
+
+/* Animaciones */
+@keyframes deslizarAbajo { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes deslizarDerecha { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes deslizarIzquierda { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes aparecerEscala { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes aparecerRotar { from { opacity: 0; transform: rotate(-3deg) scale(0.97); } to { opacity: 1; transform: rotate(0) scale(1); } }
+@keyframes brilloGradiente { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes rotarInfinito { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.girando { animation: rotarInfinito 1s linear infinite; pointer-events: none; }
+
+/* Ocultar scrollbars */
+.grid-familias-moderna, .selector-bancos, .tabla-responsive, .sidebar { scrollbar-width: none; -ms-overflow-style: none; }
+.grid-familias-moderna::-webkit-scrollbar, .selector-bancos::-webkit-scrollbar, .tabla-responsive::-webkit-scrollbar, .sidebar::-webkit-scrollbar { display: none; }
+
+
+body[data-theme="dark"] {
+    --color-fondo-app: #111827; 
+    --color-primario: #3b82f6;  
+    --color-sidebar-bg: #030712; 
+    --texto-principal: #f9fafb; 
+    --texto-secundario: #9ca3af; 
+    --border-color: #374151;    
+}
+
+/* Fondos Generales en Oscuro */
+body[data-theme="dark"] .card-grafico, 
+body[data-theme="dark"] .card-reporte-accion,
+body[data-theme="dark"] .stat-card,
+body[data-theme="dark"] .contenedor-tabla-registro,
+body[data-theme="dark"] .panel-categorias-pro,
+body[data-theme="dark"] .panel-transaccion-pro,
+body[data-theme="dark"] .header-sistema,
+body[data-theme="dark"] .card-familia,
+body[data-theme="dark"] .chip-banco,
+body[data-theme="dark"] .input-hero,
+body[data-theme="dark"] .filtros-reporte-unificados,
+body[data-theme="dark"] .modal-contenido-bonito {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: var(--texto-principal);
+}
+
+/* Inputs en modo oscuro */
+body[data-theme="dark"] input, 
+body[data-theme="dark"] select,
+body[data-theme="dark"] .grupo-filtro input[type="date"],
+body[data-theme="dark"] .grupo-filtro select {
+    background-color: #111827; /* Fondo bien oscuro para inputs */
+    color: #ffffff;
+    border: 1px solid #374151;
+}
+
+/* Evitar que se pongan blancos al hacer clic (Focus) */
+body[data-theme="dark"] input:focus, 
+body[data-theme="dark"] select:focus,
+body[data-theme="dark"] .grupo-filtro input[type="date"]:focus,
+body[data-theme="dark"] .grupo-filtro select:focus,
+body[data-theme="dark"] .input-hero:focus-within,
+body[data-theme="dark"] .input-operacion-wrapper input:focus {
+    background-color: #374151 !important; /* Gris oscuro elegante */
+    color: #ffffff !important;
+    border-color: var(--color-primario) !important;
+}
+
+/* 🟢 CORRECCIÓN: Tablas Cebra (Historial, Configuración, Usuarios) */
+body[data-theme="dark"] .tabla-transacciones th { 
+    background-color: #111827; 
+    color: #d1d5db; 
+    border-bottom: 2px solid #374151;
+}
+/* Fila Impar (Gris oscuro) */
+body[data-theme="dark"] .tabla-transacciones tbody tr:nth-child(odd) { 
+    background-color: #1f2937; 
+}
+/* Fila Par (Casi negro) */
+body[data-theme="dark"] .tabla-transacciones tbody tr:nth-child(even) { 
+    background-color: #111827; 
+}
+/* Efecto al pasar el mouse por la tabla */
+body[data-theme="dark"] .tabla-transacciones tbody tr:hover { 
+    background-color: #374151; 
+}
+/* Color del texto en la tabla (incluyendo las letras oscuras) */
+body[data-theme="dark"] .tabla-transacciones td,
+body[data-theme="dark"] .col-tipo { 
+    color: #f9fafb !important; 
+    border-bottom-color: transparent;
+}
+
+/* 🟢 CORRECCIÓN: Botones de Boleta / Factura / Nota (Segmentos) */
+body[data-theme="dark"] .selector-tipo { 
+    background-color: #111827; /* Contenedor oscuro */
+}
+body[data-theme="dark"] .selector-tipo .segmento {
+    color: #9ca3af;
+}
+body[data-theme="dark"] .selector-tipo .segmento:hover {
+    color: #ffffff;
+}
+/* El botón seleccionado no debe ser blanco */
+body[data-theme="dark"] .selector-tipo .segmento.seleccionado {
+    background-color: rgba(59, 130, 246, 0.2) !important; /* Azul translúcido */
+    color: #ffffff !important;
+    border: 2px solid var(--color-primario) !important;
+}
+
+/* Botón cerrar modales (X) y cancelar en modo oscuro */
+body[data-theme="dark"] .cerrar-modal, 
+body[data-theme="dark"] .btn-cancelar {
+    background-color: #374151;
+    color: #ffffff;
+}
+body[data-theme="dark"] .cerrar-modal:hover,
+body[data-theme="dark"] .btn-cancelar:hover {
+    background-color: #4b5563;
+}
+
+
+/* 2. TEMA PINK (Para las chicas de caja) */
+body[data-theme="pink"] {
+    --color-fondo-app: #fdf2f8; /* Fondo rosado muy claro */
+    --color-primario: #db2777;  /* Fucsia/Pink fuerte */
+    --color-secundario: #be185d;
+    --color-sidebar-bg: #831843; /* Sidebar guinda oscuro */
+}
+
+/* 3. TEMA ROJO (Estilo corporativo fuerte) */
+body[data-theme="red"] {
+    --color-fondo-app: #ebc2c2; /* Fondo rojo clarito */
+    --color-primario: #dc2626;  /* Rojo intenso */
+    --color-secundario: #991b1b;
+    --color-sidebar-bg: #6c1010; /* Sidebar rojo casi negro */
+}
+
+/* ====================================================================
+   ESTILOS DEL BOTÓN SELECTOR DE TEMAS
+   ==================================================================== */
+.selector-tema-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.btn-tema {
+    background: #f3f4f6; border: 1px solid #e5e7eb; cursor: pointer;
+    width: 42px; height: 42px; border-radius: 12px; font-size: 1.2rem;
+    display: flex; justify-content: center; align-items: center;
+    transition: all 0.3s ease;
+}
+.btn-tema:hover { background: #e5e7eb; transform: scale(1.05); }
+body[data-theme="dark"] .btn-tema { background: #374151; border-color: #4b5563; }
+
+.menu-temas {
+    position: absolute;
+    top: 50px; left: 0;
+    background: white; border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 8px; width: 160px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: none; flex-direction: column; gap: 4px;
+    z-index: 1000;
+    animation: fadeInBackground 0.2s ease forwards;
+}
+.menu-temas.mostrar { display: flex; }
+body[data-theme="dark"] .menu-temas { background: #1f2937; }
+
+.opcion-tema {
+    background: transparent; border: none; padding: 10px; border-radius: 8px;
+    text-align: left; font-weight: 600; font-size: 0.9rem; color: var(--texto-secundario);
+    cursor: pointer; display: flex; align-items: center; gap: 10px;
+    transition: all 0.2s;
+}
+.opcion-tema:hover { background: var(--color-fondo-app); color: var(--texto-principal); }
+
+/* Bolitas de colores en el menú */
+.color-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
+.color-dot.light { background: #f3f4f6; }
+.color-dot.dark { background: #111827; }
+.color-dot.pink { background: #db2777; }
+.color-dot.red { background: #dc2626; }
+
+@media print {
+    @page {
+        margin: 0 !important;
+        padding: 0.5rem !important;
+    }
+
+    body {
+        background-color: white !important;
+        color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    #sidebar, .header-sistema, .btn-abrir-caja, .botones-cierre,
+    .ticket-visual-header, .grid-stats, .header-dashboard,
+    .modal, .selector-tema-wrapper {
+        display: none !important;
+    }
+
+    #vista-yape, #vista-tarjeta, #vista-anulacion,
+    #vista-admin-maestros, #vista-reportes, #vista-roles, #vista-financiero {
+        display: none !important;
+    }
+
+    .contenedor-derecho, .area-trabajo, #vista-cierre, 
+    .dashboard-cierre, .area-accion-final, .ticket-preview-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        position: static !important;
+    }
+
+    .ticket-paper {
+        width: 100% !important;     
+        max-width: 100% !important; 
+        margin: 0 !important;
+        margin-top: -12px !important; 
+        padding: 0 !important;      
+        box-shadow: none !important; 
+        border: none !important;
+        background: white !important;
+    }
+
+    .ticket-paper .ticket-header,
+    .ticket-paper .ticket-header h3 {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        line-height: 1 !important; 
+    }
+}
