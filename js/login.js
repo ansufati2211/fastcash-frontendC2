@@ -1,15 +1,16 @@
 // ==========================================
 // 1. CONFIGURACIÓN
 // ==========================================
-// Definimos si estamos en entorno local
-const esLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.2';
 
-// COMENTADO: Evitamos conexión accidental al backend de producción original
+// DETECCIÓN INTELIGENTE
+const esLocal = window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' || 
+                window.location.hostname === '127.0.0.2' || 
+                window.location.protocol === 'file:';
 
 const BASE_URL = esLocal 
     ? 'http://localhost:8080/api' 
     : 'https://fastcash-backendc2-production.up.railway.app/api';
-
 
 // Función para prevenir inyección XSS básica
 function sanitizarEntrada(texto) {

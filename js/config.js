@@ -1,22 +1,31 @@
 // ==========================================
 // 1. CONFIGURACIÓN GLOBAL Y SESIÓN
 // ==========================================
-// Definimos las variables base en el objeto WINDOW
 
-// COMENTADO: Evitamos conexión accidental a Railway durante desarrollo
+// DETECCIÓN INTELIGENTE: Cubre localhost, IPs locales y apertura directa de archivos (file:///)
+const esLocal = window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' || 
+                window.location.hostname === '127.0.0.2' || 
+                window.location.protocol === 'file:';
 
-const esLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.2';
-
+// Asignación automática: Si es local usa 8080, si no, usa Railway
 window.BASE_URL = esLocal 
     ? 'http://localhost:8080/api' 
     : 'https://fastcash-backendc2-production.up.railway.app/api';
-
-
 
 window.CAJA_ABIERTA = false; 
 window.USUARIO_ID = null;
 window.ROL_USUARIO = 'CAJERO';
 window.USUARIO_DATA = null;
+
+// Función para prevenir inyección XSS básica
+window.sanitizarEntrada = function(texto) {
+    if (!texto) return '';
+    const elemento = document.createElement('div');
+    elemento.innerText = texto;
+    return elemento.innerHTML;
+};
+
 // Mapa de Iconos Global
 window.MAPA_ICONOS = {
     'Comestibles': '🛒', 'Bebidas': '🥤', 'Licores': '🍷',
