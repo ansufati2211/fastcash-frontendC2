@@ -11,7 +11,14 @@
         background: rgba(255, 255, 255, 0.98); 
     }
     .header-izquierda { gap: 0.75rem; }
-    .logo-sistema { height: 32px; }
+    .logo-sistema { 
+    height: 9rem;
+    margin: -3.5rem 0;
+    filter: brightness(0) invert(1); 
+    margin-bottom: 1rem; 
+    transition: transform 0.3s ease; 
+}
+
     .info-usuario { display: none; }
 
     .turno-info { display: none !important; }
@@ -44,9 +51,42 @@
     }
     .vista-seccion { width: 100%; max-width: 100%; }
 
-    .layout-split { display: flex; flex-direction: column; gap: 0; margin-bottom: 2rem; }
-    .panel-seleccion { padding: 1.5rem; width: 100%; border-right: none; border-bottom: 1px solid #f0f0f0; }
-    .panel-transaccion { padding: 1.5rem; width: 100%; }
+.layout-split { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0; 
+        margin-bottom: 1rem; 
+        height: auto !important; 
+    }
+    .panel-seleccion { 
+        padding: 1rem; 
+        width: 100%; 
+        border-right: none; 
+        border-bottom: 1px solid #f0f0f0; 
+        height: auto !important; 
+    }
+    .panel-transaccion { 
+        padding: 1rem !important; 
+        padding-bottom: 8.5rem !important; /* <--- DA MÁS ESPACIO BLANCO ABAJO DEL BOTÓN */
+        width: 100%; 
+        height: auto !important; 
+        min-height: min-content;
+    }
+    .contenido-tab, .form-venta {
+        height: auto !important;
+        overflow: visible !important;
+        gap: 0.5rem !important; /* Reduce la separación entre campos */
+    }
+    .grupo-input {
+        margin-bottom: 0.5rem !important; /* Quita el margen muerto debajo de los inputs */
+    }
+    .grupo-input label {
+        margin-bottom: 0.2rem !important; /* Pega el título al input */
+    }
+    .btn-registrar-grande {
+        margin-top: -0.8rem !important; /* Sube el botón para que se pegue a los campos */
+        padding: 14px !important; /* Ajusta el grosor del botón para que no quite pantalla */
+    }
     .grid-familias-moderna { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
 
     .selector-bancos { flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
@@ -81,6 +121,31 @@
     #admin-workspace button.btn-nuevo-usuario { width: 100% !important; justify-content: center !important; }
     #vista-admin-maestros .tabla-responsive { display: block !important; width: 100% !important; max-width: 88vw !important; margin: 0 auto; overflow-x: auto !important; -webkit-overflow-scrolling: touch; border: 1px solid #f0f0f0; border-radius: 8px; }
     #vista-admin-maestros .tabla-datos { width: 100% !important; min-width: 700px !important; table-layout: auto !important; }
+    
+    .panel-transaccion-pro {
+        height: auto !important;
+        min-height: min-content !important;
+        padding-bottom: 3rem !important; /* Da espacio blanco debajo del botón */
+        margin-bottom: 2rem !important;
+    }
+    
+    .form-grid-pro {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* Comprime un poco los inputs para que el botón no quede tan abajo */
+    .col-detalles .input-operacion-wrapper {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .col-detalles .btn-registrar-grande {
+        margin-top: 1rem !important;
+        width: 100% !important;
+    }
 }
 
 .ticket-oculto { display: none; }

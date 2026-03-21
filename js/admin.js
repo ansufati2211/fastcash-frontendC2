@@ -116,11 +116,14 @@ window.editarUsuario = async (idUsuario) => {
         document.getElementById('turnoUsuario').value = turnoId;
         document.getElementById('tituloModalUsuario').textContent = "Editar Usuario";
         
+        // 👇 MODIFICACIÓN APLICADA: Soporte para valores de texto e ID numérico en el Select
         const rolSelect = document.getElementById('rolUsuario');
         if (rolData && String(rolData).toUpperCase().includes('ADMIN')) {
             rolSelect.value = "1";
+            if(rolSelect.selectedIndex === -1) rolSelect.value = "Administrador"; 
         } else {
             rolSelect.value = "2";
+            if(rolSelect.selectedIndex === -1) rolSelect.value = "Cajero";
         }
 
         const selEstado = document.getElementById('estadoUsuario');
@@ -161,13 +164,17 @@ async function guardarUsuario(e) {
     const btnGuardar = e.target.querySelector('.btn-guardar');
     btnGuardar.innerHTML = 'Guardando...'; btnGuardar.disabled = true;
 
+    // 👇 MODIFICACIÓN APLICADA: Parseo inteligente del Rol
+    let rawRol = document.getElementById('rolUsuario').value;
+    let rolParseado = (rawRol === "1" || String(rawRol).toUpperCase() === "ADMINISTRADOR") ? 1 : 2;
+
     // 🚀 OMNI-FALLBACK PAYLOAD: Duplicamos las variables clave para asegurar 
     // que el DTO de Spring Boot las atrape sin importar si usa camelCase o PascalCase.
     const payload = { 
         nombreCompleto: document.getElementById('nombreUsuario').value,
         username: document.getElementById('usernameUsuario').value,
-        rolId: parseInt(document.getElementById('rolUsuario').value),
-        rolID: parseInt(document.getElementById('rolUsuario').value),
+        rolId: rolParseado,
+        rolID: rolParseado,
         turnoId: parseInt(document.getElementById('turnoUsuario').value),
         turnoID: parseInt(document.getElementById('turnoUsuario').value)
     };
