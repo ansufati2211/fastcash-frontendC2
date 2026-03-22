@@ -360,8 +360,15 @@ body {
    RESPONSIVE MÓVIL
    ========================================= */
 @media (max-width: 768px) {
+    body {
+        height: 100vh;
+        overflow-y: auto; 
+    }
+
     .contenedor-login {
         flex-direction: column;
+        height: 100%;
+        min-height: 100vh;
     }
     
     .panel-izquierdo {
@@ -371,21 +378,26 @@ body {
     .panel-derecho {
         flex: 1;
         width: 100%;
-        max-width: 100%;
-        min-width: 100%;
+        height: 100%;
+        min-height: 100vh;
         border-left: none;
         padding: 1.5rem; 
+        display: flex;
+        align-items: center;      
+        justify-content: center;  
     }
-
+    
     .form-wrapper {
+        width: 100%;
+        max-width: 400px;
         background: rgba(20, 20, 23, 0.7);
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        padding: 2.5rem 1.5rem 2rem 1.5rem;
+        padding: 4.5rem 1.5rem 2rem 1.5rem; 
         border-radius: 24px;
-        margin: 0 auto;
+        position: relative; 
+        margin: 0;
     }
-
 
     .header-form {
         display: flex;
@@ -395,10 +407,13 @@ body {
     }
 
     .logo-login {
+        position: absolute;
+        top: -6rem;
+        left: 50%;
+        transform: translateX(-50%); 
         height: 12rem; 
         width: auto;
-        margin: -5rem auto -3rem auto; 
-        display: block;
+        margin: 0;
         filter: drop-shadow(0 0 15px rgba(230, 0, 35, 0.3));
     }
 
@@ -406,12 +421,12 @@ body {
         font-size: 1.6rem;
     }
 
-    .header-form p {
-        font-size: 0.9rem;
-    }
-
     .btn-login {
-        padding: 12px;
-        font-size: 0.95rem;
+        padding: 14px;
+        font-size: 1rem;
+    }
+    
+    .footer-form {
+        margin-top: 1.5rem;
     }
 }
