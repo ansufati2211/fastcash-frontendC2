@@ -365,7 +365,7 @@ body {
     }
     
     .panel-izquierdo {
-        display: none; /* Ocultamos la foto en celulares */
+        display: none; 
     }
 
     .panel-derecho {
@@ -374,20 +374,44 @@ body {
         max-width: 100%;
         min-width: 100%;
         border-left: none;
+        padding: 1.5rem; 
     }
-    
+
     .form-wrapper {
-        box-shadow: none;
-        border: none;
-        background: transparent;
-        padding: 1rem;
+        background: rgba(20, 20, 23, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 2.5rem 1.5rem 2rem 1.5rem;
+        border-radius: 24px;
+        margin: 0 auto;
     }
+
+
+    .header-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        margin-bottom: 2rem;
+    }
+
     .logo-login {
-    height: 15rem; 
-    width: auto;
-    margin-left: -3.5rem;
-    margin-bottom: -4rem; 
-    margin-top: -6rem;
-    filter: drop-shadow(0 0 10px rgba(230, 0, 35, 0.4));
-}
+        height: 12rem; 
+        width: auto;
+        margin: -5rem auto -3rem auto; 
+        display: block;
+        filter: drop-shadow(0 0 15px rgba(230, 0, 35, 0.3));
+    }
+
+    .header-form h2 {
+        font-size: 1.6rem;
+    }
+
+    .header-form p {
+        font-size: 0.9rem;
+    }
+
+    .btn-login {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
 }
