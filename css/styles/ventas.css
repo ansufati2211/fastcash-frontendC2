@@ -31,6 +31,7 @@
     cursor: grab;
 }
 
+
 .grid-familias-moderna::-webkit-scrollbar { display: none; }
 
 .grid-familias-moderna.arrastrando {
