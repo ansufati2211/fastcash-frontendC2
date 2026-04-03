@@ -153,6 +153,13 @@ body[data-theme="dark"] .btn-cancelar:hover {
     background-color: #4b5563;
 }
 
+body[data-theme="dark"] .turno-actual {
+    color: white;
+}
+
+body[data-theme="dark"] .btn-hamburguesa {
+    background: #1f2937; border: 1px solid #e5e7eb; cursor: pointer; 
+}
 
 /* 2. TEMA PINK (Para las chicas de caja) */
 body[data-theme="pink"] {
@@ -185,7 +192,7 @@ body[data-theme="red"] {
     transition: all 0.3s ease;
 }
 .btn-tema:hover { background: #e5e7eb; transform: scale(1.05); }
-body[data-theme="dark"] .btn-tema { background: #374151; border-color: #4b5563; }
+body[data-theme="dark"] .btn-tema { background: #1f2937; border: 1px solid #e5e7eb; cursor: pointer }
 
 .menu-temas {
     position: absolute;
@@ -198,7 +205,9 @@ body[data-theme="dark"] .btn-tema { background: #374151; border-color: #4b5563; 
     animation: fadeInBackground 0.2s ease forwards;
 }
 .menu-temas.mostrar { display: flex; }
-body[data-theme="dark"] .menu-temas { background: #1f2937; }
+body[data-theme="dark"] .menu-temas { 
+    background: #1f2937; border: 1px solid #e5e7eb; cursor: pointer 
+}
 
 .opcion-tema {
     background: transparent; border: none; padding: 10px; border-radius: 8px;

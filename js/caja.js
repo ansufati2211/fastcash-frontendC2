@@ -130,7 +130,7 @@ window.cargarDatosCierre = function() {
 // 1. FUNCIÓN: CIERRE RESUMIDO
 // ==========================================
 window.imprimirCierre = async () => {
-    if(!confirm("⚠️ ¿Estás seguro de realizar el CIERRE DE CAJA (RESUMEN)?\n\nEsta acción finalizará tu turno, imprimirá el ticket y cerrará tu sesión.")) return;
+    if(!confirm("⚠️ ¿Estás seguro de realizar el CIERRE DE CAJA (RESUMEN)?\n\nEsta acción finalizará tu turno, descargará un PDF, imprimirá el ticket y cerrará tu sesión.")) return;
 
     const btn = document.querySelector('.btn-imprimir-cierre');
     if(btn) { btn.disabled = true; btn.innerHTML = '<span>⚙️</span> Cerrando...'; }
@@ -186,6 +186,24 @@ window.imprimirCierre = async () => {
             throw new Error(err.Mensaje || err.mensaje || err.error || "Error al cerrar la caja en el sistema.");
         }
 
+        // --- 👇 NUEVA LÓGICA: GENERAR PDF AUTOMÁTICAMENTE ---
+        const ticketElement = document.getElementById('ticketImpresion');
+        const fechaParaNombre = new Date().toISOString().slice(0,10);
+        const opt = {
+            margin:       0.1,
+            filename:     `Cierre_Resumen_${nomCajero.replace(/\s+/g, '_')}_${fechaParaNombre}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: [80, 200], orientation: 'portrait' } 
+        };
+
+        try {
+            await html2pdf().set(opt).from(ticketElement).save();
+        } catch(pdfError) {
+            console.error("Error al generar PDF de respaldo:", pdfError);
+        }
+        // --- ☝️ FIN NUEVA LÓGICA ---
+
         setTimeout(() => {
             window.print(); 
             mostrarNotificacion(" CAJA CERRADA CORRECTAMENTE.\n\nSe cerrará la sesión ahora.");
@@ -201,7 +219,7 @@ window.imprimirCierre = async () => {
 };
 
 window.imprimirCierreDetallado = async () => {
-    if(!confirm("⚠️ ¿Estás seguro de realizar el CIERRE DE CAJA (DETALLADO)?\n\nEsta acción finalizará tu turno, imprimirá el ticket con el detalle de las ventas y cerrará tu sesión.")) return;
+    if(!confirm("⚠️ ¿Estás seguro de realizar el CIERRE DE CAJA (DETALLADO)?\n\nEsta acción finalizará tu turno, descargará un PDF, imprimirá el ticket con el detalle de las ventas y cerrará tu sesión.")) return;
 
     const btn = document.querySelector('.btn-imprimir-cierre-detallado');
     if(btn) { btn.disabled = true; btn.innerHTML = '<span>⚙️</span> Procesando...'; }
@@ -234,9 +252,8 @@ window.imprimirCierreDetallado = async () => {
         const nomCajero = window.USUARIO_DATA.nombreCompleto || window.USUARIO_DATA.NombreCompleto || window.USUARIO_DATA.username || "CAJERO";
         if(elNombre) elNombre.textContent = nomCajero.toUpperCase();
 
-setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
+        setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
         setText('ticketTarjetaPrint', data.ventasTarjeta || data.VentasTarjeta || data.ventastarjeta);
-        setText('ticketTransferPrint', data.ventasTransferencia || data.VentasTransferencia || data.ventastransferencia);
         setText('ticketTransferPrint', data.ventasTransferencia || data.VentasTransferencia || data.ventastransferencia);
         setText('ticketAnuladoPrint', data.totalAnulado || data.TotalAnulado || data.totalanulado); 
         setText('ticketTotalPrint', data.totalVendido || data.TotalVendido || data.totalvendido);
@@ -262,7 +279,7 @@ setText('ticketYapePrint', data.ventasQR || data.VentasQR || data.ventasqr);
                     
                     const horaFormateada = new Date(fechaStr).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
                     
-let infoOperacion = '';
+                    let infoOperacion = '';
                     if (formaPago === 'EFECTIVO') {
                         infoOperacion = 'EFECTIVO';
                     } else {
@@ -308,6 +325,26 @@ let infoOperacion = '';
             const err = await resCierre.json();
             throw new Error(err.Mensaje || err.mensaje || err.error || "Error al cerrar la caja en el sistema.");
         }
+
+        // --- 👇 NUEVA LÓGICA: GENERAR PDF AUTOMÁTICAMENTE ---
+        const ticketElement = document.getElementById('ticketImpresion');
+        const fechaParaNombre = new Date().toISOString().slice(0,10);
+        const altoTicketera = detalles.length > 10 ? 200 + (detalles.length * 10) : 250; 
+
+        const opt = {
+            margin:       0.1,
+            filename:     `Cierre_Detallado_${nomCajero.replace(/\s+/g, '_')}_${fechaParaNombre}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'mm', format: [80, altoTicketera], orientation: 'portrait' } 
+        };
+
+        try {
+            await html2pdf().set(opt).from(ticketElement).save();
+        } catch(pdfError) {
+            console.error("Error al generar PDF de respaldo:", pdfError);
+        }
+        // --- ☝️ FIN NUEVA LÓGICA ---
 
         setTimeout(() => {
             window.print(); 
